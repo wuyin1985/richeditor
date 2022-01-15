@@ -1,0 +1,54 @@
+syntax = "proto3";
+package PathEditor;
+
+message CameraConfig {
+   MapVector3 position = 1;
+   MapVector4 rotation = 2;
+   float fov = 3;
+   float aspect_ratio = 4;
+   float near = 5;
+   float far = 6;
+}
+message LightConfig {
+   MapVector3 position = 1;
+   MapVector4 rotation = 2;
+   MapVector4 color = 3;
+   float shadow_bias = 4;
+   float shadow_normal_bias = 5;
+}
+message MapConfig {
+   CameraConfig camera = 1;
+   LightConfig light = 2;
+   repeated WaveQueue wave_queues = 3;
+   repeated PathData paths = 4;
+}
+message MapVector3 {
+   float x = 1;
+   float y = 2;
+   float z = 3;
+}
+message MapVector4 {
+   float x = 1;
+   float y = 2;
+   float z = 3;
+   float w = 4;
+}
+message PathData {
+   repeated PathWayPointData points = 1;
+}
+message PathWayPointData {
+   MapVector3 position = 1;
+   float reach_range = 2;
+}
+message Wave {
+   float wait_time = 1;
+   string unit = 2;
+   float spawn_cool_down = 3;
+   float duration = 4;
+   int32 per_spawn_count = 5;
+   int32 path_index = 6;
+}
+message WaveQueue {
+   float wait_time = 1;
+   repeated Wave waves = 2;
+}
