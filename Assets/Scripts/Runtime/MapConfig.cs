@@ -16,7 +16,7 @@ namespace PathEditor
     {
         [ProtoMember(1)] public float wait_time;
 
-        [ProtoMember(2)] public string unit;
+        [ProtoMember(2)] [NonSerialized] public ulong unit;
 
         [ProtoMember(3)] public float spawn_cool_down;
 
@@ -25,6 +25,8 @@ namespace PathEditor
         [ProtoMember(5)] public int per_spawn_count;
 
         [ProtoMember(6)] public int path_index;
+
+        public string unit_name;
     }
 
     [Serializable]
@@ -173,6 +175,27 @@ namespace PathEditor
             using var file = File.Open($"{Application.dataPath}/{setting.TargetProtoDataPath}/{fileName}_pb.map",
                 FileMode.Create);
 
+            //deal wave
+            {
+                foreach (var waveQueue in wave_queues)
+                {
+                    foreach (var wave in waveQueue.waves)
+                    {
+                        wave.unit = CallNative.c_get_hash(Encoding.UTF8.GetBytes(wave.unit_name + '\0'));
+                        Debug.Log($"unit name {wave.unit_name} -> {wave.unit}");
+                    }
+                }
+
+                var path = $"{Application.dataPath}/../../rich/assets/config/hash.json";
+                var dir = Path.GetDirectoryName(path);
+                if (!Directory.Exists(dir))
+                {
+                    throw new Exception($"the dir {dir} not exist");
+                }
+
+                CallNative.c_save_hash(Encoding.UTF8.GetBytes(path + '\0'));
+            }
+
             {
                 var unityCamera = Camera.main;
                 if (unityCamera == null) throw new Exception("failed to find main camera");
@@ -190,7 +213,7 @@ namespace PathEditor
 
             {
                 var directionLight = FindObjectOfType<Light>();
-                
+
                 var look_at = (directionLight.transform.rotation * Vector3.forward).normalized * 50 +
                               directionLight.transform.position;
 

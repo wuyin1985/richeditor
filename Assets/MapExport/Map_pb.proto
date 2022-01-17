@@ -42,7 +42,7 @@ message PathWayPointData {
 }
 message Wave {
    float wait_time = 1;
-   string unit = 2;
+   uint64 unit = 2;
    float spawn_cool_down = 3;
    float duration = 4;
    int32 per_spawn_count = 5;

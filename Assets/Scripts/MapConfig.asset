@@ -16,8 +16,8 @@ MonoBehaviour:
   - wait_time: 2
     waves:
     - wait_time: 0
-      unit: main
       spawn_cool_down: 0.2
       duration: 10
       per_spawn_count: 5
       path_index: 0
+      unit_name: main
