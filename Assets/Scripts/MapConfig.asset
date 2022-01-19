@@ -20,4 +20,4 @@ MonoBehaviour:
       duration: 10
       per_spawn_count: 5
       path_index: 0
-      unit_name: main
+      unit_name: goblin

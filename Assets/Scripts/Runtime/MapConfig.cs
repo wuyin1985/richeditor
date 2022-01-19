@@ -214,9 +214,6 @@ namespace PathEditor
             {
                 var directionLight = FindObjectOfType<Light>();
 
-                var look_at = (directionLight.transform.rotation * Vector3.forward).normalized * 50 +
-                              directionLight.transform.position;
-
                 light = new LightConfig
                 {
                     position = MapVector3.RightHandPosition(directionLight.transform.position),
